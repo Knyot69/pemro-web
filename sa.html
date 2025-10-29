@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form Data Mahasiswa</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f5f5f5;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    td, th {
+      padding: 10px;
+      vertical-align: top;
+    }
+
+    .box {
+      border: 1px solid #ccc;
+      background-color: #fff;
+      border-radius: 8px;
+      padding: 15px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    }
+
+    h3 {
+      margin-bottom: 8px;
+      padding-bottom: 5px;
+      border-bottom: 3px solid #000;
+    }
+
+    .form-container label {
+      display: block;
+      margin-top: 2px;
+    }
+
+    .form-container input, .form-container select {
+      width: 95%;
+      padding: 6px;
+      margin-top: 3px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      width: 97%;
+      margin-top: 12px;
+      padding: 10px;
+      background-color: #000;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background-color: #333;
+    }
+
+    .warning-box {
+      display: flex;
+      align-items: center;
+      background-color: #d6d6d6;
+      border-left: 6px solid #000;
+      margin-top: 12px;
+      padding: 8px 10px;
+      border-radius: 4px;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .info-box {
+      background: #f8f8f8;
+      padding: 8px;
+      border-left: 5px solid #444;
+      min-height: 100px;
+      border-radius: 4px;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 5px;
+    }
+
+    .data-table th {
+      background-color: #b3b3b3;
+    }
+
+    .data-table td, .data-table th {
+      border: 1px solid #444;
+      padding: 5px;
+      vertical-align: top;
+    }
+
+    .info-detail {
+      line-height: 1.5em;
+    }
+  </style>
+</head>
+<body>
+
+  <table>
+    <tr>
+      <td rowspan="2" width="50%">
+        <div class="box">
+          <div class="form-container">
+            <h3>Input Data Mahasiswa</h3>
+            <label>Nama Lengkap:</label>
+            <input type="text" id="nama">
+
+            <label>NIM:</label>
+            <input type="text" id="nim">
+
+            <label>Semester:</label>
+            <input type="text" id="semester">
+
+            <label>Program Studi:</label>
+            <select id="prodi">
+              <option value="">-- Pilih Prodi --</option>
+              <option value="Teknik Informatika">TI</option>
+              <option value="Sistem Informasi">SI</option>
+            </select>
+
+            <label>Email:</label>
+            <input type="email" id="email">
+
+            <button onclick="kirimData()">Submit</button>
+
+            <!-- Tambahan di bawah tombol -->
+            <div class="warning-box">
+              Isi data mahasiswa dengan benar
+            </div>
+          </div>
+        </div>
+      </td>
+
+      <td>
+        <div class="box">
+          <h3>Informasi Pengiriman</h3>
+          <div class="info-box">
+            <h5>Apa yang terjadi saat anda klik "Kirim Data"?</h5>
+            Data ditampilkan di console<br>
+            data di simpan di array<br>
+            jumlah data di-update<br>
+            form akan kosong kembali
+          </div>
+        </div>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <div class="box">
+          <h3>Tabel Mahasiswa</h3>
+          <table class="data-table" id="tabelMahasiswa">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Nama</th>
+                <th>Info</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </td>
+    </tr>
+  </table>
+
+  <script>
+    let dataMahasiswa = [];
+
+    function kirimData() {
+      const nama = document.getElementById('nama').value.trim();
+      const nim = document.getElementById('nim').value.trim();
+      const semester = document.getElementById('semester').value.trim();
+      const prodi = document.getElementById('prodi').value.trim();
+
+      if (!nama || !nim || !semester || !prodi) {
+        alert("Isi semua data dengan benar!");
+        return;
+      }
+
+      const mahasiswa = { nama, nim, semester, prodi };
+      dataMahasiswa.push(mahasiswa);
+      console.log("Data terkirim:", mahasiswa);
+
+      const tabel = document.getElementById('tabelMahasiswa').getElementsByTagName('tbody')[0];
+      const row = tabel.insertRow();
+      const no = tabel.rows.length;
+
+      const cellNo = row.insertCell(0);
+      const cellNama = row.insertCell(1);
+      const cellInfo = row.insertCell(2);
+
+      cellNo.innerText = no;
+      cellNama.innerText = nama;
+      cellInfo.innerHTML = `
+        <div class="info-detail">
+          <div>Prodi: ${prodi}</div>
+          <div>Semester: ${semester}</div>
+        </div>
+      `;
+
+      document.getElementById('nama').value = '';
+      document.getElementById('nim').value = '';
+      document.getElementById('semester').value = '';
+      document.getElementById('prodi').value = '';
+    }
+  </script>
+
+</body>
+</html>
